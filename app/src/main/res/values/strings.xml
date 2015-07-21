@@ -7,4 +7,8 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_catches">Catches</string>
+    <string name="label_fish_species">Fish Species</string>
+    <string name="label_weight">Weight</string>
+    <string name="label_length">Length</string>
+    <string name="label_angler">Angler</string>
 </resources>

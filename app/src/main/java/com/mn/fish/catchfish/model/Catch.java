@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by manuMohan on 15/07/19.
  */
-public class Catch implements Serializable{
+public class Catch implements Serializable {
     @SerializedName("id")
     private int id;
 
@@ -20,6 +20,9 @@ public class Catch implements Serializable{
 
     @SerializedName("weight")
     private float weight;
+
+    @SerializedName("length")
+    private float length;
 
     @SerializedName("owner")
     private Owner owner;
@@ -34,7 +37,7 @@ public class Catch implements Serializable{
     private Method method;
 
     @SerializedName("photos")
-    private ArrayList<Photo>photos;
+    private ArrayList<Photo> photos;
 
     public int getId() {
         return id;
@@ -106,5 +109,13 @@ public class Catch implements Serializable{
 
     public void setPhotos(ArrayList<Photo> photos) {
         this.photos = photos;
+    }
+
+    public float getLength() {
+        return length;
+    }
+
+    public void setLength(float length) {
+        this.length = length;
     }
 }

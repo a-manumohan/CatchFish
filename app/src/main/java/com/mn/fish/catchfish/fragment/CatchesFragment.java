@@ -84,14 +84,12 @@ public class CatchesFragment extends BaseFragment {
 
     private void initViews() {
         mCatchesAdapter = new CatchesAdapter(this::showCatchDetailsFragment);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 7);
         mCatchesRecyclerView.setAdapter(mCatchesAdapter);
         mCatchesRecyclerView.setLayoutManager(gridLayoutManager);
         mCatchesAdapter.setCatches(mCatches);
         mCatchesAdapter.notifyDataSetChanged();
-        mSwipeRefreshLayout.setOnRefreshListener(() -> {
-
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(this::fetchCatches);
     }
 
     private void showCatchDetailsFragment(Catch cCatch) {
@@ -101,12 +99,15 @@ public class CatchesFragment extends BaseFragment {
     private void fetchCatches() {
         final ArrayList<Catch> newCatches = new ArrayList<>();
         mProgressBar.setVisibility(View.VISIBLE);
-        mSubscription = mFishServiceManager.getCatches(3)
+        mSubscription = mFishServiceManager.getCatches(6)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         newCatches::addAll,
-                        throwable -> mProgressBar.setVisibility(View.INVISIBLE),
+                        throwable -> {
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mSwipeRefreshLayout.setRefreshing(false);
+                        },
                         () -> {
                             mProgressBar.setVisibility(View.INVISIBLE);
                             if (mCatches == null)
@@ -115,6 +116,7 @@ public class CatchesFragment extends BaseFragment {
                                 mCatches.clear();
                             mCatches.addAll(newCatches);
                             updateViews();
+                            mSwipeRefreshLayout.setRefreshing(false);
                         }
                 );
     }

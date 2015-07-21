@@ -37,21 +37,12 @@ public class CatchesAdapter extends RecyclerView.Adapter<CatchesAdapter.CatchVie
     public void onBindViewHolder(CatchViewHolder holder, int position) {
         holder.pos = position;
         Catch cCatch = mCatches.get(position);
-        Photo.Details.Size thumbnailSize = null;
         if (cCatch.getPhotos() == null || cCatch.getPhotos().size() == 0) {
             Picasso.with(holder.catchThumbnail.getContext()).load(R.drawable.placeholder_fish).into(holder.catchThumbnail);
             return;
         }
         Photo photo = cCatch.getPhotos().get(0);
-        for (Photo.Details.Size size : photo.getDetails().getSizes()) {
-            if (size.getGeometry().equals("64x64#")) {
-                thumbnailSize = size;
-                break;
-            }
-        }
-        if (thumbnailSize == null) {
-            thumbnailSize = photo.getDetails().getSizes().get(0);
-        }
+        Photo.Details.Size thumbnailSize = photo.getDetails().getSizes().get(0);
         Picasso.with(holder.catchThumbnail.getContext()).load(thumbnailSize.getUrl()).into(holder.catchThumbnail);
     }
 
