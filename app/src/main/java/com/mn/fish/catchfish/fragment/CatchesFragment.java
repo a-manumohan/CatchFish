@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.mn.fish.catchfish.FishApplication;
 import com.mn.fish.catchfish.R;
@@ -115,6 +116,7 @@ public class CatchesFragment extends BaseFragment {
                         throwable -> {
                             mProgressBar.setVisibility(View.INVISIBLE);
                             mSwipeRefreshLayout.setRefreshing(false);
+                            showErrorMessage();
                         },
                         () -> {
                             mProgressBar.setVisibility(View.INVISIBLE);
@@ -151,7 +153,9 @@ public class CatchesFragment extends BaseFragment {
         mListener = null;
     }
 
-
+    private void showErrorMessage(){
+        Toast.makeText(getActivity(), R.string.error_generic_refresh_feed,Toast.LENGTH_SHORT).show();
+    }
     public interface OnFragmentInteractionListener {
         void showCatchDetailsFragment(Catch mCatch);
     }
