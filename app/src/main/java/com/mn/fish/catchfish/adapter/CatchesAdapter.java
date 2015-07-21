@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.mn.fish.catchfish.R;
 import com.mn.fish.catchfish.model.Catch;
 import com.mn.fish.catchfish.model.Photo;
+import com.mn.fish.catchfish.model.PhotoSize;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class CatchesAdapter extends RecyclerView.Adapter<CatchesAdapter.CatchVie
             return;
         }
         Photo photo = cCatch.getPhotos().get(0);
-        Photo.Details.Size thumbnailSize = photo.getDetails().getSizes().get(0);
+        PhotoSize thumbnailSize = photo.getDetails().getPhotoSizes().get(0);
         Picasso.with(holder.catchThumbnail.getContext()).load(thumbnailSize.getUrl()).into(holder.catchThumbnail);
     }
 

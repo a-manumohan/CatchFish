@@ -28,6 +28,8 @@ import rx.schedulers.Schedulers;
 
 public class CatchesFragment extends BaseFragment {
 
+    private static final String ARG_CATCHES = "arg_catches";
+
     private OnFragmentInteractionListener mListener;
 
     @Bind(R.id.refresh)
@@ -60,6 +62,11 @@ public class CatchesFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         ((FishApplication) getActivity().getApplication()).getFishComponent().inject(this);
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(ARG_CATCHES)) {
+                mCatches = savedInstanceState.getParcelableArrayList(ARG_CATCHES);
+            }
+        }
     }
 
     @Override
@@ -73,7 +80,8 @@ public class CatchesFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews();
-        fetchCatches();
+        if (mCatches == null || mCatches.size() == 0)
+            fetchCatches();
     }
 
     @Override
@@ -148,4 +156,9 @@ public class CatchesFragment extends BaseFragment {
         void showCatchDetailsFragment(Catch mCatch);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(ARG_CATCHES, mCatches);
+    }
 }

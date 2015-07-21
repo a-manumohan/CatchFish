@@ -1,14 +1,21 @@
 package com.mn.fish.catchfish.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+
+import auto.parcel.AutoParcel;
 
 /**
  * Created by manuMohan on 15/07/19.
  */
-public class Catch implements Serializable {
+@AutoParcel
+public class Catch implements  Parcelable {
     @SerializedName("id")
     private int id;
 
@@ -118,4 +125,50 @@ public class Catch implements Serializable {
     public void setLength(float length) {
         this.length = length;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.description);
+        dest.writeString(this.caughtAtGmt);
+        dest.writeFloat(this.weight);
+        dest.writeFloat(this.length);
+        dest.writeParcelable(this.owner, 0);
+        dest.writeParcelable(this.species, 0);
+        dest.writeParcelable(this.bait, 0);
+        dest.writeParcelable(this.method, 0);
+        dest.writeTypedList(photos);
+    }
+
+    public Catch() {
+    }
+
+    protected Catch(Parcel in) {
+        this.id = in.readInt();
+        this.description = in.readString();
+        this.caughtAtGmt = in.readString();
+        this.weight = in.readFloat();
+        this.length = in.readFloat();
+        this.owner = in.readParcelable(Owner.class.getClassLoader());
+        this.species = in.readParcelable(Species.class.getClassLoader());
+        this.bait = in.readParcelable(Bait.class.getClassLoader());
+        this.method = in.readParcelable(Method.class.getClassLoader());
+        this.photos = in.createTypedArrayList(Photo.CREATOR);
+    }
+
+    public static final Creator<Catch> CREATOR = new Creator<Catch>() {
+        public Catch createFromParcel(Parcel source) {
+            return new Catch(source);
+        }
+
+        public Catch[] newArray(int size) {
+            return new Catch[size];
+        }
+    };
 }

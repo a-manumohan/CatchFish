@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.mn.fish.catchfish.R;
 import com.mn.fish.catchfish.model.Catch;
-import com.mn.fish.catchfish.model.Photo;
+import com.mn.fish.catchfish.model.PhotoSize;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -48,7 +48,7 @@ public class CatchDetailsFragment extends BaseFragment {
     public static CatchDetailsFragment newInstance(Catch mCatch) {
         CatchDetailsFragment fragment = new CatchDetailsFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_CATCH, mCatch);
+        args.putParcelable(ARG_CATCH, mCatch);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,7 +61,7 @@ public class CatchDetailsFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mCatch = (Catch) getArguments().getSerializable(ARG_CATCH);
+            mCatch = getArguments().getParcelable(ARG_CATCH);
         }
     }
 
@@ -87,8 +87,8 @@ public class CatchDetailsFragment extends BaseFragment {
         if (mCatch.getPhotos() == null || mCatch.getPhotos().size() == 0) {
             Picasso.with(getActivity()).load(R.drawable.placeholder_fish).into(mCatchImageView);
         } else {
-            int lastImageIndex = mCatch.getPhotos().get(0).getDetails().getSizes().size();
-            Photo.Details.Size largeImageSize = mCatch.getPhotos().get(0).getDetails().getSizes().get(lastImageIndex - 1);
+            int lastImageIndex = mCatch.getPhotos().get(0).getDetails().getPhotoSizes().size();
+            PhotoSize largeImageSize = mCatch.getPhotos().get(0).getDetails().getPhotoSizes().get(lastImageIndex - 1);
             Picasso.with(getActivity()).load(largeImageSize.getUrl()).into(mCatchImageView);
         }
 

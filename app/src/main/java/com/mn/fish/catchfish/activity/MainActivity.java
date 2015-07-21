@@ -10,6 +10,7 @@ import com.mn.fish.catchfish.fragment.CatchDetailsFragment;
 import com.mn.fish.catchfish.fragment.CatchesFragment;
 import com.mn.fish.catchfish.model.Catch;
 
+
 public class MainActivity extends AppCompatActivity implements
         CatchesFragment.OnFragmentInteractionListener,
         CatchDetailsFragment.OnFragmentInteractionListener {
@@ -17,11 +18,23 @@ public class MainActivity extends AppCompatActivity implements
     private static final String TAG_CATCHES_FRAGMENT = "catches_fragment";
     private static final String TAG_CATCH_DETAILS_FRAGMENT = "catch_details";
 
+    private static final String ARG_CURRENT_FRAGMENT = "current_fragment";
+
+    private String mCurrentFragmentTag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        showCatchesFragment();
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(ARG_CURRENT_FRAGMENT)) {
+                mCurrentFragmentTag = savedInstanceState.getString(ARG_CURRENT_FRAGMENT);
+            }
+        }
+
+        if (mCurrentFragmentTag == null || mCurrentFragmentTag.equals("")) {
+            showCatchesFragment();
+        }
     }
 
     @Override
@@ -50,8 +63,9 @@ public class MainActivity extends AppCompatActivity implements
         CatchesFragment catchesFragment = CatchesFragment.newInstance();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.child_container, catchesFragment, TAG_CATCH_DETAILS_FRAGMENT)
+                .replace(R.id.child_container, catchesFragment, TAG_CATCHES_FRAGMENT)
                 .commit();
+        mCurrentFragmentTag = TAG_CATCHES_FRAGMENT;
     }
 
     @Override
@@ -62,5 +76,12 @@ public class MainActivity extends AppCompatActivity implements
                 .replace(R.id.child_container, catchDetailsFragment, TAG_CATCH_DETAILS_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
+        mCurrentFragmentTag = TAG_CATCH_DETAILS_FRAGMENT;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(ARG_CURRENT_FRAGMENT, mCurrentFragmentTag);
     }
 }
