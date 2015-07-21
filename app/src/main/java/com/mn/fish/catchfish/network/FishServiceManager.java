@@ -15,9 +15,9 @@ import rx.Observable;
 @Singleton
 public class FishServiceManager {
     private FishService mFishService;
-    private static final int LOW = 0;
-    private static final int MEDIUM = 2;
-    private static final int HIGH = 3;
+    public static final int LOW = 0;
+    public static final int MEDIUM = 2;
+    public static final int HIGH = 3;
 
     @Inject
     public FishServiceManager(FishService fishService) {
